@@ -17,7 +17,15 @@
   const ROOT = SAATH.root || "";
   const slug = (params.get("c") || "demo").replace(/[^a-z0-9-]/gi, "");
   // Photos and voice notes come from the website as absolute URLs; older records name files beside the couple.
-  const media = (src) => (/^(data:|blob:|https?:|\/)/.test(src) ? src : `${ROOT}couples/${slug}/${src}`);
+  const media = (src) => {
+  if (!src) return "";
+
+  if (/^(data:|blob:|https?:|\/)/.test(src)) {
+    return src;
+  }
+
+  return new URL(src, document.baseURI).href;
+};
   // The family: from the page (a family's own link, i/<slug>/<key>, resolved by the site), or ?f=.
   const familyParam = (SAATH.family || params.get("f") || "").trim().slice(0, 40);
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
