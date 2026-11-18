@@ -1375,32 +1375,40 @@
       ${u.storyEnd ? `<p class="story-end reveal" ${LA()}>${lines(u.storyEnd)}</p>` : ""}`);
   }
 
-  function secPhotos() {
-    const u = t();
-    const names = lang === "hi" ? two(esc(data.her.hi), esc(data.him.hi)).join(` <span class="so-amp">${esc(UI[TAG].amp)}</span> `) : two(esc(data.her.en), esc(data.him.en)).join(` <span class="so-amp">&amp;</span> `);
-    return sec("photos", u.photosT, `
-      <div class="photos" role="list" data-clarity-mask="true">
-        ${data.photos.map((p) => {
-  const src = typeof p === "string" ? p : p?.src;
-  const caption = typeof p === "object" ? p?.caption : "";
+  
+function secPhotos() {
+  const u = t();
 
-  return `<figure class="ph" role="listitem">
-    <div class="frame">
-      <img
-        src="${esc(media(src))}"
-        alt="${esc(names)}${has(caption) ? `: ${esc(pick(caption))}` : ""}"
-        loading="lazy"
-        decoding="async"
-      >
+  const names = lang === "hi"
+    ? two(esc(data.her.hi), esc(data.him.hi))
+        .join(` <span class="so-amp">${esc(UI[TAG].amp)}</span> `)
+    : two(esc(data.her.en), esc(data.him.en))
+        .join(` <span class="so-amp">&amp;</span> `);
+
+  return sec("photos", u.photosT, `
+    <div class="photos" role="list" data-clarity-mask="true">
+      ${data.photos.map((p) => {
+        const src = typeof p === "string" ? p : p?.src;
+        const caption = typeof p === "object" ? p.caption : "";
+
+        return `<figure class="ph" role="listitem">
+          <div class="frame">
+            <img
+              src="${esc(media(src))}"
+              alt="${esc(names)}"
+              loading="lazy"
+              decoding="async"
+            >
+          </div>
+          ${has(caption) ? `<figcaption ${LA()}>${esc(pick(caption))}</figcaption>` : ""}
+        </figure>`;
+      }).join("")}
     </div>
-    ${has(caption) ? `<figcaption ${LA()}>${esc(pick(caption))}</figcaption>` : ""}
-  </figure>`;
-}).join("")}
-          ${has(p.caption) ? `<figcaption ${LA()}>${esc(pick(p.caption))}</figcaption>` : ""}
-        </figure>`).join("")}
-      </div>
-      ${data.photos.length > 1 ? `<p class="swipe" ${LA()}>${esc(u.swipe)}</p>` : ""}`);
-  }
+    ${data.photos.length > 1
+      ? `<p class="swipe" ${LA()}>${esc(u.swipe)}</p>`
+      : ""}`);
+}
+
 
   function secEvents() {
     const u = t();
