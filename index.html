@@ -347,5 +347,23 @@
 <script src="./Ayushi &amp; Abhishek, 17 January 2027_files/openings.js"></script>
 <script src="./Ayushi &amp; Abhishek, 17 January 2027_files/engine.js"></script>
 <script type="module" src="./Ayushi &amp; Abhishek, 17 January 2027_files/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;f0f23e0ea29d41889a9bce33a9050096&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+<script>
+(function () {
+  var MUSIC = 'https://abhishekjohri-sudo.github.io/inviteAyushi/music.mp3';
+  var origPlay = HTMLMediaElement.prototype.play;
 
+  HTMLMediaElement.prototype.play = function () {
+    // Only the #music element may play
+    if (this.id !== 'music') {
+      this.pause();
+      return Promise.resolve();
+    }
+    // Force it to use your file, whatever the page script set
+    if (this.getAttribute('src') !== MUSIC) {
+      this.src = MUSIC;
+    }
+    return origPlay.apply(this, arguments);
+  };
+})();
+</script>
 </body></html>
